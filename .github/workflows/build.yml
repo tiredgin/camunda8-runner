@@ -1,0 +1,12 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step A
+        run: echo "Running Release Pipeline..."
