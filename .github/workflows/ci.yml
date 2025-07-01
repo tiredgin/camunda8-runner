@@ -19,7 +19,8 @@ jobs:
 
       - name: Set up Docker and dependencies
         run: |
-          apk add --no-cache docker-compose curl jq
+          apt-get update
+          apt-get install -y docker-compose curl jq
 
       - name: Start docker-compose
         run: docker-compose -f docker-compose.yaml up -d
