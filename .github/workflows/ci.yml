@@ -128,16 +128,16 @@ jobs:
       - name: Check Zeebe readiness
         run: |
           for i in {1..10}; do
-          if docker run --rm \
-          --network "${GITHUB_REPOSITORY##*/}_camunda-platform" \
-          curlimages/curl:7.85.0 \
-          http://localhost:9600/actuator/health/readiness | grep UP; then
-          echo "Zeebe is ready"
-          break
-          else
-          echo "Waiting for Zeebe..."
-          sleep 5
-          fi
+            if docker run --rm \
+            --network "${GITHUB_REPOSITORY##*/}_camunda-platform" \
+            curlimages/curl:7.85.0 \
+            http://localhost:9600/actuator/health/readiness | grep UP; then
+            echo "Zeebe is ready"
+            break
+            else
+            echo "Waiting for Zeebe..."
+            sleep 5
+            fi
           done 
 
       - name: Tear down stack
