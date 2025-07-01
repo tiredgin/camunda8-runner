@@ -119,12 +119,26 @@ jobs:
       - name: Wait a bit
         run: sleep 10
 
+      - name: Show repository name
+        run: |
+          echo "Full GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+          echo "network: ${GITHUB_REPOSITORY##*/}"
+        shell: bash
+
       - name: Check Zeebe readiness
         run: |
-          docker run --rm \
-            --network "${GITHUB_REPOSITORY##*/}_camunda-platform" \
-            curlimages/curl:7.85.0 \
-            http://zeebe:9600/actuator/health/readiness
+          for i in {1..10}; do
+          if docker run --rm \
+          --network "${GITHUB_REPOSITORY##*/}_camunda-platform" \
+          curlimages/curl:7.85.0 \
+          http://localhost:9600/actuator/health/readiness | grep UP; then
+          echo "Zeebe is ready"
+          break
+          else
+          echo "Waiting for Zeebe..."
+          sleep 5
+          fi
+          done 
 
       - name: Tear down stack
         if: always()
